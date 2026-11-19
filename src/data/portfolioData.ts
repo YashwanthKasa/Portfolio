@@ -26,7 +26,7 @@ export const portfolioData: PortfolioConfig = {
     label: "SELECTED SHOWREEL / 2026",
     duration: "01:48",
     videoUrl:
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "https://vjs.zencdn.net/v/oceans.mp4",
     thumbnailUrl:
       "https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&w=1920&q=85",
     description:
@@ -158,7 +158,7 @@ export const portfolioData: PortfolioConfig = {
       thumbnailUrl:
         "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=85",
       videoUrl:
-        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+        "https://res.cloudinary.com/demo/video/upload/c_scale,w_720/sea_turtle.mp4",
       aspectRatio: "16:9",
       featured: true,
       isPlaceholder: true,
@@ -186,7 +186,7 @@ export const portfolioData: PortfolioConfig = {
       thumbnailUrl:
         "https://images.unsplash.com/photo-1511556532299-8f662fc26c06?auto=format&fit=crop&w=1200&q=85",
       videoUrl:
-        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+        "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
       aspectRatio: "16:9",
       featured: true,
       isPlaceholder: true,
@@ -218,7 +218,7 @@ export const portfolioData: PortfolioConfig = {
       thumbnailUrl:
         "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=85",
       videoUrl:
-        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+        "https://cdn.jsdelivr.net/gh/mediaelement/mediaelement-files@master/big_buck_bunny.mp4",
       aspectRatio: "16:9",
       featured: false,
       isPlaceholder: true,
@@ -250,7 +250,7 @@ export const portfolioData: PortfolioConfig = {
       thumbnailUrl:
         "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=85",
       videoUrl:
-        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+        "https://res.cloudinary.com/demo/video/upload/c_scale,w_720/elephants.mp4",
       aspectRatio: "16:9",
       featured: false,
       isPlaceholder: true,
@@ -278,7 +278,7 @@ export const portfolioData: PortfolioConfig = {
       thumbnailUrl:
         "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=85",
       videoUrl:
-        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4",
+        "https://vjs.zencdn.net/v/oceans.mp4",
       aspectRatio: "16:9",
       featured: false,
       isPlaceholder: true,
@@ -306,7 +306,7 @@ export const portfolioData: PortfolioConfig = {
       thumbnailUrl:
         "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1200&q=85",
       videoUrl:
-        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyBlazes.mp4",
+        "https://res.cloudinary.com/demo/video/upload/c_scale,w_720/sea_turtle.mp4",
       aspectRatio: "16:9",
       featured: false,
       isPlaceholder: true,

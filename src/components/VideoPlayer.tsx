@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { Play, Pause, Volume2, VolumeX, Maximize, RotateCcw } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX, Maximize, AlertCircle } from "lucide-react";
 
 interface VideoPlayerProps {
   src: string;
@@ -14,6 +14,46 @@ interface VideoPlayerProps {
   onEnded?: () => void;
 }
 
+export function parseVideoSource(url: string) {
+  if (!url) return { type: "unknown" as const, url: "" };
+
+  const cleanUrl = url.trim();
+
+  // YouTube detection
+  const ytMatch = cleanUrl.match(
+    /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/))([\w-]{11})/
+  );
+  if (ytMatch && ytMatch[1]) {
+    return {
+      type: "youtube" as const,
+      embedUrl: `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1&mute=0&rel=0&modestbranding=1&playsinline=1`,
+      videoId: ytMatch[1],
+    };
+  }
+
+  // Vimeo detection
+  const vimeoMatch = cleanUrl.match(/vimeo\.com\/(?:video\/)?([0-9]+)/);
+  if (vimeoMatch && vimeoMatch[1]) {
+    return {
+      type: "vimeo" as const,
+      embedUrl: `https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1&color=ffffff&title=0&byline=0&portrait=0`,
+      videoId: vimeoMatch[1],
+    };
+  }
+
+  // Google Drive file detection
+  const driveMatch = cleanUrl.match(/drive\.google\.com\/(?:file\/d\/|open\?id=)([\w-]+)/);
+  if (driveMatch && driveMatch[1]) {
+    return {
+      type: "drive" as const,
+      embedUrl: `https://drive.google.com/file/d/${driveMatch[1]}/preview`,
+      fileId: driveMatch[1],
+    };
+  }
+
+  return { type: "direct" as const, url: cleanUrl };
+}
+
 export const VideoPlayer: React.FC<VideoPlayerProps> = ({
   src,
   poster,
@@ -24,8 +64,11 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
   className = "",
   onEnded,
 }) => {
+  const parsed = parseVideoSource(src);
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
   const [isPlaying, setIsPlaying] = useState(autoPlay);
   const [isMuted, setIsMuted] = useState(muted);
   const [currentTime, setCurrentTime] = useState(0);
@@ -35,9 +78,27 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
   const [controlsVisible, setControlsVisible] = useState(true);
   const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  // If this is an iframe embed (YouTube, Vimeo, Google Drive), render the embed directly
+  if (parsed.type === "youtube" || parsed.type === "vimeo" || parsed.type === "drive") {
+    return (
+      <div className={`relative w-full h-full bg-black flex items-center justify-center ${className}`}>
+        <iframe
+          src={parsed.embedUrl}
+          title={title || "Video Player"}
+          className="w-full h-full border-0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+        />
+      </div>
+    );
+  }
+
+  // Otherwise, handle as HTML5 direct video (mp4, webm)
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+
+    setHasError(false);
 
     const handleTimeUpdate = () => setCurrentTime(video.currentTime);
     const handleLoadedMetadata = () => {
@@ -54,8 +115,8 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
       setIsPlaying(false);
       if (onEnded) onEnded();
     };
-    const handleError = () => {
-      console.warn("Video playback fallback triggered for:", src);
+    const handleError = (e: any) => {
+      console.warn("Direct HTML5 video error:", e);
       setHasError(true);
     };
 
@@ -67,6 +128,21 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
     video.addEventListener("ended", handleEnd);
     video.addEventListener("error", handleError);
 
+    // If autoPlay is requested, handle browser audio policies safely
+    if (autoPlay) {
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Browser prevented unmuted autoplay: mute and retry
+          video.muted = true;
+          setIsMuted(true);
+          video.play().catch(() => {
+            setIsPlaying(false);
+          });
+        });
+      }
+    }
+
     return () => {
       video.removeEventListener("timeupdate", handleTimeUpdate);
       video.removeEventListener("loadedmetadata", handleLoadedMetadata);
@@ -76,20 +152,23 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
       video.removeEventListener("ended", handleEnd);
       video.removeEventListener("error", handleError);
     };
-  }, [src, onEnded]);
+  }, [src, autoPlay, onEnded]);
 
   const togglePlay = () => {
     const video = videoRef.current;
     if (!video) return;
 
     if (video.paused) {
-      video.play().catch(() => {
-        // Autoplay policy fallback
-        video.muted = true;
-        setIsMuted(true);
-        video.play().catch(() => setHasError(true));
-      });
-      setIsPlaying(true);
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => setIsPlaying(true))
+          .catch(() => {
+            video.muted = true;
+            setIsMuted(true);
+            video.play().then(() => setIsPlaying(true));
+          });
+      }
     } else {
       video.pause();
       setIsPlaying(false);
@@ -146,46 +225,43 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
       onMouseEnter={() => setControlsVisible(true)}
       className={`relative group bg-black overflow-hidden select-none flex items-center justify-center ${className}`}
     >
-      {!hasError ? (
-        <video
-          ref={videoRef}
-          src={src}
-          poster={poster}
-          playsInline
-          loop={loop}
-          muted={muted}
-          onClick={togglePlay}
-          className="w-full h-full object-cover cursor-pointer"
-        />
-      ) : (
-        /* Cinematic Visual Placeholder when video source is unreachable */
-        <div 
-          onClick={togglePlay}
-          className="w-full h-full relative cursor-pointer flex flex-col items-center justify-center bg-gradient-to-b from-[#111111] via-[#0a0a0a] to-[#000000] p-6 text-center"
-        >
+      <video
+        ref={videoRef}
+        src={src}
+        poster={poster}
+        playsInline
+        loop={loop}
+        muted={isMuted}
+        onClick={togglePlay}
+        className="w-full h-full object-cover cursor-pointer"
+      />
+
+      {/* Fallback notification banner if source cannot be reached */}
+      {hasError && (
+        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-black/85 p-6 text-center">
+          <AlertCircle className="w-8 h-8 text-[#86868B] mb-2" />
+          <p className="text-sm font-medium text-white mb-1">
+            Video Source Inaccessible
+          </p>
+          <p className="text-xs text-[#86868B] max-w-sm mb-4">
+            The video URL returned a network restriction (CORS / 403). Replace it in{" "}
+            <code className="text-white bg-[#222] px-1 py-0.5 rounded">
+              portfolioData.ts
+            </code>{" "}
+            with a YouTube, Vimeo, or direct MP4 link.
+          </p>
           {poster && (
-            <img 
-              src={poster} 
-              alt={title || "Cinematic video placeholder"} 
-              className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-luminosity"
+            <img
+              src={poster}
+              alt="Preview"
+              className="w-48 h-28 object-cover rounded-lg opacity-40 border border-white/10"
             />
           )}
-          <div className="relative z-10 max-w-md flex flex-col items-center">
-            <div className="w-16 h-16 rounded-full border border-[#333333] bg-[#0A0A0A]/90 flex items-center justify-center text-white mb-4 shadow-2xl backdrop-blur-sm">
-              <Play className="w-6 h-6 ml-1 fill-white" />
-            </div>
-            <p className="text-xs uppercase tracking-widest text-[#86868B] mb-1">
-              Cinematic Preview
-            </p>
-            <h4 className="text-sm font-medium text-[#F5F5F7] tracking-tight">
-              {title || "Selected Editorial Cut"}
-            </h4>
-          </div>
         </div>
       )}
 
-      {/* Center big play button overlay when paused */}
-      {!isPlaying && (
+      {/* Center play button overlay when paused */}
+      {!isPlaying && !hasError && (
         <button
           onClick={togglePlay}
           aria-label="Play video"
@@ -238,12 +314,15 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
             <button
               onClick={toggleMute}
               aria-label={isMuted ? "Unmute" : "Mute"}
-              className="text-[#86868B] hover:text-white transition-colors"
+              className="text-[#86868B] hover:text-white transition-colors flex items-center gap-1.5"
             >
               {isMuted ? (
-                <VolumeX className="w-4 h-4" />
+                <>
+                  <VolumeX className="w-4 h-4 text-red-400" />
+                  <span className="text-[10px] text-red-400 hidden sm:inline">Muted</span>
+                </>
               ) : (
-                <Volume2 className="w-4 h-4" />
+                <Volume2 className="w-4 h-4 text-white" />
               )}
             </button>
 
