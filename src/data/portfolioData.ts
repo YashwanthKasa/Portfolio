@@ -13,7 +13,7 @@ import { PortfolioConfig } from "../types/portfolio";
  */
 
 export const portfolioData: PortfolioConfig = {
-  personalName: "ALEXANDER CROSS", // Replace with your name or brand
+  personalName: "Yashwanth Kasa", // Replace with your name or brand
   brandTagline: "Independent Video Editor & Creative Storyteller",
   eyebrowHero: "INDEPENDENT VIDEO EDITOR & CREATIVE STORYTELLER",
   heroHeadline: "I turn footage into stories.",
@@ -336,79 +336,72 @@ export const portfolioData: PortfolioConfig = {
       "DaVinci Resolve Studio",
       "Adobe Premiere Pro",
       "Adobe After Effects",
-      "Dehancer Pro",
-      "iZotope RX 10",
-      "Logic Pro X",
-      "Audition",
-      "Frame.io",
     ],
     portraitPlaceholderUrl:
-      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1000&q=85",
+      "https://drive.google.com/drive/u/0/folders/1yh1vctp2w3IWsmnQGGSTGyCjaaLIONgH",
   },
 
-  // SECTION 07: MY WORKFLOW (5-step timeline)
-  workflow: {
-    eyebrow: "THE PROCESS",
-    headline: "From Raw Footage to Final Cut.",
-    steps: [
-      {
-        step: "STEP 01",
-        number: "01",
-        title: "Understand",
-        description:
-          "Understand the client's vision, objectives, target audience and content requirements.",
-        detail:
-          "Deep dive into reference materials, target audience expectations, delivery formats, and project goals through a streamlined briefing questionnaire.",
-      },
-      {
-        step: "STEP 02",
-        number: "02",
-        title: "Plan",
-        description:
-          "Develop the storytelling structure, pacing and creative direction.",
-        detail:
-          "Review raw footage, build the paper edit or select stringout, choose musical themes, and define the rhythmic trajectory.",
-      },
-      {
-        step: "STEP 03",
-        number: "03",
-        title: "Create",
-        description:
-          "Edit footage, develop sound design, add motion elements and refine visuals.",
-        detail:
-          "Assemble the rough cut, layer Foley/SFX, sync pacing to musical beats, implement kinetic titles, and execute initial color grading.",
-      },
-      {
-        step: "STEP 04",
-        number: "04",
-        title: "Refine",
-        description:
-          "Collect feedback, make revisions and improve the final output.",
-        detail:
-          "Collaborate via time-coded review links (Frame.io/Vimeo), fine-tune cuts, balance dialog audio levels, and polish every micro-transition.",
-      },
-      {
-        step: "STEP 05",
-        number: "05",
-        title: "Deliver",
-        description:
-          "Export and deliver polished, platform-ready content.",
-        detail:
-          "Deliver master 4K ProRes/H.265 files, platform-specific vertical crops, thumbnail selects, and organized project archives ready for immediate launch.",
-      },
-    ],
-  },
+    // SECTION 07: MY WORKFLOW (5-step timeline)
+    workflow: {
+      eyebrow: "THE PROCESS",
+      headline: "From Raw Footage to Final Cut.",
+      steps: [
+        {
+          step: "STEP 01",
+          number: "01",
+          title: "Understand",
+          description:
+            "Understand the client's vision, objectives, target audience and content requirements.",
+          detail:
+            "Deep dive into reference materials, target audience expectations, delivery formats, and project goals through a streamlined briefing questionnaire.",
+        },
+        {
+          step: "STEP 02",
+          number: "02",
+          title: "Plan",
+          description:
+            "Develop the storytelling structure, pacing and creative direction.",
+          detail:
+            "Review raw footage, build the paper edit or select stringout, choose musical themes, and define the rhythmic trajectory.",
+        },
+        {
+          step: "STEP 03",
+          number: "03",
+          title: "Create",
+          description:
+            "Edit footage, develop sound design, add motion elements and refine visuals.",
+          detail:
+            "Assemble the rough cut, layer Foley/SFX, sync pacing to musical beats, implement kinetic titles, and execute initial color grading.",
+        },
+        {
+          step: "STEP 04",
+          number: "04",
+          title: "Refine",
+          description:
+            "Collect feedback, make revisions and improve the final output.",
+          detail:
+            "Collaborate via time-coded review links (Frame.io/Vimeo), fine-tune cuts, balance dialog audio levels, and polish every micro-transition.",
+        },
+        {
+          step: "STEP 05",
+          number: "05",
+          title: "Deliver",
+          description:
+            "Export and deliver polished, platform-ready content.",
+          detail:
+            "Deliver master 4K ProRes/H.265 files, platform-specific vertical crops, thumbnail selects, and organized project archives ready for immediate launch.",
+        },
+      ],
+    },
 
-  // SECTION 08: CONTACT & FOOTER
-  contact: {
-    email: "contact@alexandercross.film",
-    whatsapp: "+1 (555) 234-8901",
-    whatsappUrl: "https://wa.me/15552348901",
-    instagram: "@alexcross.edits",
-    instagramUrl: "https://instagram.com",
-    linkedin: "linkedin.com/in/alexandercross-editor",
-    linkedinUrl: "https://linkedin.com",
-    location: "Available Worldwide (Remote / On-Location)",
-    availability: "Booking projects for Q2 / Q3 2026",
-  },
-};
+    // SECTION 08: CONTACT & FOOTER
+    contact: {
+      email: "yashwanthkasa153@gmail.com",
+      whatsapp: "+91 8142263049",
+      whatsappUrl: "https://wa.me/8142263049",
+      instagram: "@yashwanth_kasa",
+      instagramUrl: "https://www.instagram.com/yashwanth_kasa/?hl=en",
+      location: "Available Worldwide (Remote / On-Location)",
+      availability: "Booking projects for Q2 / Q3 2026",
+    },
+  };

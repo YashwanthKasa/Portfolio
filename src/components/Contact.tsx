@@ -214,27 +214,29 @@ export const Contact: React.FC = () => {
               </a>
 
               {/* LinkedIn */}
-              <a
-                href={contact.linkedinUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex items-center justify-between p-4 rounded-xl bg-[#141414] border border-[#242424] hover:border-[#3E3E3E] transition-all"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-[#1C1C1C] flex items-center justify-center text-white">
-                    <Linkedin className="w-4 h-4" />
+              {contact.linkedin && contact.linkedinUrl && (
+                <a
+                  href={contact.linkedinUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center justify-between p-4 rounded-xl bg-[#141414] border border-[#242424] hover:border-[#3E3E3E] transition-all"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-[#1C1C1C] flex items-center justify-center text-white">
+                      <Linkedin className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <span className="text-[11px] uppercase tracking-wider font-mono text-[#86868B] block">
+                        LinkedIn
+                      </span>
+                      <span className="text-sm font-medium text-[#F5F5F7] group-hover:text-white">
+                        {contact.linkedin}
+                      </span>
+                    </div>
                   </div>
-                  <div>
-                    <span className="text-[11px] uppercase tracking-wider font-mono text-[#86868B] block">
-                      LinkedIn
-                    </span>
-                    <span className="text-sm font-medium text-[#F5F5F7] group-hover:text-white">
-                      {contact.linkedin}
-                    </span>
-                  </div>
-                </div>
-                <ArrowUpRight className="w-4 h-4 text-[#86868B] group-hover:text-white transition-colors" />
-              </a>
+                  <ArrowUpRight className="w-4 h-4 text-[#86868B] group-hover:text-white transition-colors" />
+                </a>
+              )}
             </div>
           </div>
 

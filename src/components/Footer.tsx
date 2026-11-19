@@ -97,15 +97,17 @@ export const Footer: React.FC = () => {
             >
               <Instagram className="w-4 h-4" />
             </a>
-            <a
-              href={portfolioData.contact.linkedinUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              className="w-9 h-9 rounded-full bg-[#111111] border border-[#222222] flex items-center justify-center text-[#86868B] hover:text-white hover:border-[#444] transition-colors"
-            >
-              <Linkedin className="w-4 h-4" />
-            </a>
+            {portfolioData.contact.linkedinUrl && (
+              <a
+                href={portfolioData.contact.linkedinUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="w-9 h-9 rounded-full bg-[#111111] border border-[#222222] flex items-center justify-center text-[#86868B] hover:text-white hover:border-[#444] transition-colors"
+              >
+                <Linkedin className="w-4 h-4" />
+              </a>
+            )}
           </div>
         </div>
       </div>

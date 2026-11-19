@@ -34,6 +34,10 @@ export const About: React.FC = () => {
               <img
                 src={about.portraitPlaceholderUrl}
                 alt={personalName}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src =
+                    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1000&q=85";
+                }}
                 className="w-full h-full object-cover grayscale contrast-125 transition-transform duration-700 group-hover:scale-105 opacity-90"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />

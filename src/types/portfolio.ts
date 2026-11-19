@@ -63,8 +63,8 @@ export interface ContactInfo {
   whatsappUrl: string;
   instagram: string;
   instagramUrl: string;
-  linkedin: string;
-  linkedinUrl: string;
+  linkedin?: string;
+  linkedinUrl?: string;
   location: string;
   availability: string;
 }
